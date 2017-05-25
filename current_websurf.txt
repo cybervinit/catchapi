@@ -1,0 +1,7 @@
+Current web-surfing list:
+
+http://electronics.howstuffworks.com/twitch.htm
+https://www.digitalocean.com/community/tutorials/how-to-structure-large-flask-applications
+https://damyanon.net/
+https://github.com/realpython/discover-flask
+https://www.reddit.com/r/flask/
