@@ -2,7 +2,6 @@ import os
 from flask import Flask, render_template, request
 from models import db
 from flask_restplus import Resource, Api, fields, reqparse
-import config
 
 
 app = Flask(__name__)
