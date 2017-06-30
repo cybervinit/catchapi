@@ -6,7 +6,7 @@ from flask_restplus import Resource, Api, fields, reqparse
 
 app = Flask(__name__)
 api = Api(app)
-app.config.from_object('config_app.DevelopmentConfig') 
+app.config.from_object('config_app.ProductionConfig') 
 # app.config.from_pyfile('config.py')
 # FIX THE CONFIGURATION ERROR! 
 db.init_app(app)
