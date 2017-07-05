@@ -1,18 +1,25 @@
 import os
 from flask import Flask, render_template, request
 from models import db
-from flask_restplus import Resource, Api, fields, reqparse
+from flask_restplus import Resource, Api, fields, reqparse, Namespace
 
-from .users import api as ns1
+# namespace imports
+from users import usersApi
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ App Setup ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 app = Flask(__name__)
 api = Api(app)
-# app.config.from_pyfile('config.py')
-# FIX THE CONFIGURATION ERROR! 
-baseUrl = '/v1'
+api.title = 'CATCH API'
+api.version = '1.0'
+api.description = 'The api for an upcoming android application'
+baseUrl = '/v1/'
 app.config.from_object('config_app.DevelopmentConfig')
 db.init_app(app)
-api.add_namespace(ns1, baseUrl+'/animals')
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Route setup ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.add_namespace(usersApi, path=baseUrl+'users')
 
 import models # Must always be imported after the database because it requires the db to be initiated
 
@@ -37,7 +44,7 @@ class main_page(Resource):
 
 	model = api.model('Model', {
 		'name': fields.String(default="No name"),
-		'age': fields.Integer
+		'age': fields.Integer(default=18)
 		})
 
 	
@@ -54,30 +61,4 @@ class main_page(Resource):
 		except:
 			# error caught
 			return 'error'
-
-
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------------------------ v1/users section ------------------------------------------------------------------------------------------------
-@api.route(baseUrl+'/users')
-class users(Resource):
-	def get(self):
-		try:
-			# get users
-			pass
-		except:
-			# in case of exception
-			pass
-		return {'get': 'works'}
-
-
-	def post(self):
-		try:
-			# put in the new user
-			pass
-		except:
-			return {'error': 'some error'}
-			pass
-
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

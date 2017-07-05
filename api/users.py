@@ -1,16 +1,17 @@
 from flask_restplus import Namespace, Resource, fields
+from models import db
+import models
 
 
+usersApi = Namespace('users', description="User operations")
 
-api = Namespace('animals', description="animal operations")
 
-
-@api.route('/')
-class animalList(Resource):
+@usersApi.route('/')
+class users(Resource):
 
 	def get(self):
-		return {
-		'animal_name': 'Tiger',
-		'age': 19
-		}
-		
+		# get users
+		return models.Stock.query.Jsonify()
+	
+	def post(self):
+		pass
