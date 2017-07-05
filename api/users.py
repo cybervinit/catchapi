@@ -11,7 +11,7 @@ class users(Resource):
 
 	def get(self):
 		# get users
-		return models.Stock.query.Jsonify()
+		return
 	
 	def post(self):
 		pass

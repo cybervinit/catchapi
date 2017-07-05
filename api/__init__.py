@@ -13,21 +13,14 @@ api.title = 'CATCH API'
 api.version = '1.0'
 api.description = 'The api for an upcoming android application'
 baseUrl = '/v1/'
-app.config.from_object('config_app.DevelopmentConfig')
+app.config.from_object('config_app.ProductionConfig')
 db.init_app(app)
+import models # Must always be imported after the database because it requires the db to be initiated
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Route setup ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 api.add_namespace(usersApi, path=baseUrl+'users')
-
-import models # Must always be imported after the database because it requires the db to be initiated
-
-# ~~~~~~~~~~~~ Person object ~~~~~~~~~~~~~~~~ 
-class Person(object):
-	def __init__(self, name, age):
-		self.name = name
-		self.age = age
 
 
 
@@ -49,8 +42,9 @@ class main_page(Resource):
 
 	
 
-	@api.marshal_with(model)
+	
 	def get(self, **kwargs):
+		return 'The first version of the api.'
 		args = parser.parse_args(strict=True)
 		try:
 			# Here is where you get the api info
