@@ -13,14 +13,13 @@ class stocks(Resource):
 	def get(self):
 		try:
 			#get stocks
-			return {'stocks': 'APPL'}, 200
+			return db.session.query.filter_by(email='vinit@gmail.com'), 200
 		except Exception as e:
 			return {'message': str(e)}, 500
 
+
 	def post(self):
 		try:
-			db.session.add(Stock('APPL'))
-			db.session.commit()
 			return {'message': 'success'}, 200
 		except Exception as e:
 			return {'message': str(e)}, 500

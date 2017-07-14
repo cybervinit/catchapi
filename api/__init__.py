@@ -15,7 +15,7 @@ api.title = 'CATCH API'
 api.version = '1.0'
 api.description = 'The api for an upcoming android application'
 baseUrl = '/v1/'
-app.config.from_object('config_app.ProductionConfig')
+app.config.from_object('config_app.DevelopmentConfig')
 db.init_app(app)
 import models # Must always be imported after the database because it requires the db to be initiated
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
