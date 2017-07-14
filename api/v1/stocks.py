@@ -12,8 +12,6 @@ class stocks(Resource):
 
 	def get(self):
 		try:
-			db.session.add(Stock('APPL'))
-			db.session.commit()
 			#get stocks
 			return {'stocks': 'APPL'}, 200
 		except Exception as e:

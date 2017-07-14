@@ -4,9 +4,9 @@ from models import db
 from flask_restplus import Resource, Api, fields, reqparse, Namespace
 
 # namespace imports
-from users import usersApi
-from companies import companiesApi
-from stocks import stocksApi
+from .users import usersApi
+from .companies import companiesApi
+from .stocks import stocksApi
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ App Setup ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 app = Flask(__name__)
