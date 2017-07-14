@@ -22,7 +22,7 @@ import models # Must always be imported after the database because it requires t
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Route setup ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-api.add_namespace(usersApi, path=baseUrl+'user2s') 		  # USERS
+api.add_namespace(usersApi, path=baseUrl+'users') 		  # USERS
 api.add_namespace(companiesApi, path=baseUrl+'companies') # COMPANIES
 api.add_namespace(stocksApi, path=baseUrl+'stocks')		  # STOCKS
 

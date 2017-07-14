@@ -3,7 +3,7 @@ from models import db
 import models
 
 
-usersApi = Namespace('users2', description="User operations")
+usersApi = Namespace('users', description="User operations")
 
 
 @usersApi.route('/asd')
