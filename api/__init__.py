@@ -5,6 +5,8 @@ from flask_restplus import Resource, Api, fields, reqparse, Namespace
 
 # namespace imports
 from users import usersApi
+from companies import companiesApi
+from stocks import stocksApi
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ App Setup ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 app = Flask(__name__)
@@ -20,7 +22,9 @@ import models # Must always be imported after the database because it requires t
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Route setup ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-api.add_namespace(usersApi, path=baseUrl+'users')
+api.add_namespace(usersApi, path=baseUrl+'user2s') 		  # USERS
+api.add_namespace(companiesApi, path=baseUrl+'companies') # COMPANIES
+api.add_namespace(stocksApi, path=baseUrl+'stocks')		  # STOCKS
 
 
 
