@@ -6,7 +6,7 @@ import models
 usersApi = Namespace('users', description="User operations")
 
 
-@usersApi.route('/asd')
+@usersApi.route('/')
 @usersApi.response(500, 'Server broke :(')
 @usersApi.response(200, 'success')
 class users(Resource):
