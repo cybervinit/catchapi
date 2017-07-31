@@ -32,19 +32,20 @@ class User(BaseModel):
 	id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String(20), nullable=False)
 	email = db.Column(db.String(120))
+	country = db.Column(db.String(50))
 	current_balance = db.Column(db.Integer, nullable=False)
 	user_type = db.Column(db.Integer, nullable=False)
 	current_net_worth = db.Column(db.Integer, nullable=False)
 	stocks = db.relationship('Stock', secondary=user_stock_relationship_table, backref=db.backref('owners', lazy='dynamic'))
 
 
-	def __init__(self, username, email, current_balance, user_type, current_net_worth):
+	def __init__(self, username, email, country, current_balance, user_type, current_net_worth):
 		self.username = username
 		self.email = email
 		self.current_balance = current_balance
 		self.user_type = user_type
 		self.current_net_worth = current_net_worth
-
+		self.country = country
 
 # Model class for Companies
 class Company(BaseModel):
