@@ -29,6 +29,7 @@ user_stock_relationship_table = db.Table('user_stock_relationship_table',
 class User(BaseModel):
 	__tablename__="users"
 
+	# CHANGING THIS ALSO REQUIRES CHANGING THE JSON ENCODER IN __init__.py
 	id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String(20), nullable=False)
 	email = db.Column(db.String(120))
@@ -51,6 +52,7 @@ class User(BaseModel):
 class Company(BaseModel):
 	__tablename__ = "companies"
 
+	# CHANGING THIS ALSO REQUIRES CHANGING THE JSON ENCODER IN __init__.py
 	id = db.Column(db.Integer, primary_key=True)
 	company_name = db.Column(db.String(32), nullable=False)
 	current_owner = db.Column(db.String(20), nullable=True)
@@ -70,6 +72,7 @@ class Company(BaseModel):
 class Stock(BaseModel):
 	__tablename__ = "stocks"
 
+	# CHANGING THIS ALSO REQUIRES CHANGING THE JSON ENCODER IN __init__.py
 	id = db.Column(db.Integer, primary_key=True)
 	company_name = db.Column(db.String(32), nullable=False)
 	#owner = db.Column(db.String(20), nullable=True) # Nullable is true because initially, in the IPO, it is not owned. 

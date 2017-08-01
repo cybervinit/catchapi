@@ -26,6 +26,10 @@ class CatchJSONEncoder(JSONEncoder):
 				'user_type':obj.user_type,
 				'current_net_worth': obj.current_net_worth
 			}
+		if isinstance(obj, Stock):
+			return {
+				'company_name': obj.company_name
+			}
 		# TODO: add the other object classifications
 		return JSONEncoder.default(self, obj)
 
@@ -56,7 +60,7 @@ api.add_namespace(testEp, path=baseUrl+'test')            # testing
 
 
 
-# ------------------------------------------------------------------------------------------------ baseurl route ------------------------------------------------------------------------------------------------
+# --------------------------------------------------- baseurl route --------------------------------------
 parser = reqparse.RequestParser()
 parser.add_argument('name')
 parser.add_argument('age', type=int)
@@ -87,7 +91,7 @@ class main_page(Resource):
 			return 'error'
 
 
-# ------------------------------------------------------------------------------------------------ seeding ------------------------------------------------------------------------------------------------
+# --------------------------------------------------- seeding ---------------------------------------------
 
 
 
@@ -104,7 +108,9 @@ class seeding(Resource):
 	def post(self):
 		try:
 			args = seedParser.parse_args(strict=True)
-			if (args['seed_type'] == 'users' or args['seed_type'] == 'stocks' or args['seed_type'] == 'companies'):
+			if (args['seed_type'] == 'users' or 
+				args['seed_type'] == 'stocks' or 
+				args['seed_type'] == 'companies'):
 				if (args['action_type'] == 'add'):
 					# Add the appropriate data
 					seedAt(args['seed_type'])
