@@ -9,7 +9,6 @@ class BaseConfig(object):
 
 
 class DevelopmentConfig(BaseConfig):
-	FLASK_DEBUG=True
 	basedir = os.path.abspath(os.path.dirname(__file__))
 	SQLALCHEMY_DATABASE_URI = 'postgresql:///' +'newdb' #os.environ['DATABASE_URL']
 	SQLALCHEMY_TRACK_MODIFICATIONS = False

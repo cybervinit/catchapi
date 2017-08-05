@@ -1,11 +1,15 @@
 from flask_restplus import Namespace, Resource, fields, reqparse
 from models import db, User, Company, Stock
 import models
+from validator import validate, user_rank, username_validator
+from util import rank_types
 
 
 usersApi = Namespace('users', description="User operations")
 
 # --------------------------------------------------- all users ---------------------------------------------
+
+
 
 @usersApi.route('/')
 @usersApi.response(522, 'Server broke :(')
@@ -42,19 +46,24 @@ class rank(Resource):
 
 	def get(self, username):
 		try:
-			# assert that all args exist in DB or are valid
 			args = rank_parser.parse_args()
+
+			# ^^^^^^^^^^^ ERROR CHECK ^^^^^^^^^^^^^^^^^^^^^^^
+			if (not validate(args, user_rank)):
+				return {'ERROR': 'one or more parameters not valid'}, 422
+			if (not validate(username, username_validator)):
+				error_str = username+' does not exist.'
+				return {'ERROR': error_str}, 422
+			# vvvvvvvvvvv ERROR CHECK END vvvvvvvvvvvvvvvvv
+
 			if (args['rank_type'] == None or args['rank_type'] == 'national'):
+				#TODO: return national rank of the user
 				return {'rank_type': 'national rank'}, 222
 			elif args['rank_type'] == 'global':
+				# TODO: return global rank of the user
 				return {'rank_type': 'global rank'}, 222
-			return {'ERROR': 'must specify valid rank_type'}, 422
 		except Exception as e:
 			return {'SERVER ERROR': str(e)}, 522
-
-	def post(self):
-		pass
-
 
 
 # --------------------------------------------------- Registration ---------------------------------------------
