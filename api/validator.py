@@ -22,3 +22,13 @@ def user_rank(args):
 def username_validator(username):
 	# check if the user exists in the database
 	return False
+
+def users_validator(args):
+	if (args['amount'] >= 0):
+		if (args['rank_area'] == 'top' or args['rank_area'] == 'bottom'):
+			return True
+		elif (args['rank_area'] == 'around_user'):
+			if (not args['username'] == None):
+				return True
+
+	return False

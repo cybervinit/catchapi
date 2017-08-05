@@ -1,7 +1,7 @@
 from flask_restplus import Namespace, Resource, fields, reqparse
 from models import db, User, Company, Stock
 import models
-from validator import validate, user_rank, username_validator
+from validator import validate, user_rank, username_validator, users_validator
 from util import rank_types
 
 
@@ -9,7 +9,10 @@ usersApi = Namespace('users', description="User operations")
 
 # --------------------------------------------------- all users ---------------------------------------------
 
-
+users_parser = reqparse.RequestParser()
+users_parser.add_argument('amount', type=int)
+users_parser.add_argument('rank_area', type=str)
+users_parser.add_argument('username', type=str)
 
 @usersApi.route('/')
 @usersApi.response(522, 'Server broke :(')
@@ -18,14 +21,23 @@ class users(Resource):
 
 	def get(self):
 		try:
-			# get users
-			return {'user': 'vinit'}, 222
+			args = users_parser.parse_args()
+			# ^^^^^^^^^^^ ERROR CHECK ^^^^^^^^^^^^^^^^^^^^^^^
+			if (not validate(args, users_validator)):
+				return {'ERROR': 'one or more parameters not valid'}, 422
+			if (not validate(args['username'], username_validator)):
+				error_str = username+' does not exist.'
+				return {'ERROR': error_str}, 422
+			# vvvvvvvvvvv ERROR CHECK END vvvvvvvvvvvvvvvvv
+
+			
+			return {'user': 'get users ordered by rank'}, 222
 		except Exception as e:
 			return {'message': str(e)}, 522
 	
 	
 	def post(self):
-		return 'work', 222
+		return {'action': 'update the ranks of the users'}, 222
 
 # --------------------------------------------------- rank ---------------------------------------------
 
