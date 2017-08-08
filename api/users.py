@@ -33,13 +33,13 @@ class users(Resource):
 			
 			return {'user': 'get users ordered by rank'}, 222
 		except Exception as e:
-			return {'message': str(e)}, 522
+			return {'SERVER ERROR': str(e)}, 522
 	
 	
 	def post(self):
 		return {'action': 'update the ranks of the users'}, 222
 
-# --------------------------------------------------- rank ---------------------------------------------
+# --------------------------------------------------- Rank ---------------------------------------------
 
 
 rank_parser = reqparse.RequestParser()
@@ -67,8 +67,9 @@ class rank(Resource):
 				error_str = username+' does not exist.'
 				return {'ERROR': error_str}, 422
 			# vvvvvvvvvvv ERROR CHECK END vvvvvvvvvvvvvvvvv
+			rank_type = args['rank_type']
 
-			if (args['rank_type'] == None or args['rank_type'] == 'national'):
+			if args['rank_type'] == 'national':
 				#TODO: return national rank of the user
 				return {'rank_type': 'national rank'}, 222
 			elif args['rank_type'] == 'global':

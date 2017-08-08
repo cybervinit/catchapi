@@ -1,5 +1,5 @@
 from util import rank_types
-from models import db
+from models import db, User
 
 # TODO
 
@@ -12,8 +12,8 @@ def validate(x, check):
 
 def user_rank(args):
 	# TODO: import values from util.py and check with those values!!
-	if ((args['rank_type'] == None or args['rank_type'] == 'national' or args['rank_type'] == 'global')
-		and (True)):
+	if ((args['rank_type'] in rank_types)
+		and (True)): # more conditions
 		return True
 	else:
 		return False
@@ -21,7 +21,10 @@ def user_rank(args):
 
 def username_validator(username):
 	# check if the user exists in the database
-	return False
+	user = User.query.filter_by(username=username).first()
+	if (user is None):
+		return False
+	return True
 
 def users_validator(args):
 	if (args['amount'] >= 0):
