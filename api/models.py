@@ -31,13 +31,14 @@ class User(BaseModel):
 
 	# CHANGING THIS ALSO REQUIRES CHANGING THE JSON ENCODER IN __init__.py
 	id = db.Column(db.Integer, primary_key=True)
-	username = db.Column(db.String(20), nullable=False)
+	username = db.Column(db.String(20), nullable=False, unique=True)
 	email = db.Column(db.String(120))
 	country = db.Column(db.String(50))
 	current_balance = db.Column(db.Integer, nullable=False)
 	user_type = db.Column(db.Integer, nullable=False)
 	current_net_worth = db.Column(db.Integer, nullable=False)
 	stocks = db.relationship('Stock', secondary=user_stock_relationship_table, backref=db.backref('owners', lazy='dynamic'))
+	new_worth_leaderboard = db.relationship('NetWorthLeaderboard', uselist=False, backref="user")
 
 
 	def __init__(self, username, email, country, current_balance, user_type, current_net_worth):
@@ -47,6 +48,13 @@ class User(BaseModel):
 		self.user_type = user_type
 		self.current_net_worth = current_net_worth
 		self.country = country
+
+class NetWorthLeaderboard(BaseModel):
+	__tablename__="net_worth_leaderboard"
+
+	id = db.Column(db.Integer, primary_key=True)
+	rank = db.Column(db.Integer, nullable=False)
+	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 # Model class for Companies
 class Company(BaseModel):

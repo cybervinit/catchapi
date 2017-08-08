@@ -67,6 +67,7 @@ class rank(Resource):
 				error_str = username+' does not exist.'
 				return {'ERROR': error_str}, 422
 			# vvvvvvvvvvv ERROR CHECK END vvvvvvvvvvvvvvvvv
+			
 			rank_type = args['rank_type']
 
 			if args['rank_type'] == 'national':
