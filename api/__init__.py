@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, jsonify
 from flask.json import JSONEncoder
-from models import db, User, Stock, Company
+from models import db, User, Stock, Company, NetWorthLeaderboard
 from flask_restplus import Resource, Api, fields, reqparse, Namespace
 
 # namespace imports
@@ -11,38 +11,20 @@ from .stocks import stocksApi as stocksEp
 from .testing import testEp # testing
 
 # seeding
-from seeder import userList
+from seeder import user_seed_list, nwLb_seed_list, stock_seed_list
 
-# ---------------------------------- Custom JSON serializer ----------------------------
-
-class CatchJSONEncoder(JSONEncoder):
-	def default(self, obj):
-		if isinstance(obj, User):
-			return {
-				'username': obj.username,
-				'email': obj.email,
-				'country': obj.country,
-				'current_balance': obj.current_balance,
-				'user_type':obj.user_type,
-				'current_net_worth': obj.current_net_worth
-			}
-		if isinstance(obj, Stock):
-			return {
-				'company_name': obj.company_name
-			}
-		# TODO: add the other object classifications
-		return JSONEncoder.default(self, obj)
+# validations
+from validator import validate, seed_validator
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ App Setup ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 app = Flask(__name__)
-app.json_encoder = CatchJSONEncoder
 api = Api(app)
 api.title = 'CATCH API'
 api.version = '1.0'
 api.description = 'The api for an upcoming android application'
 baseUrl = '/v1/'
-app.config.from_object('config_app.DevelopmentConfig')
+app.config.from_object('config_app.ProductionConfig')
 db.init_app(app)
 import models # Must always be imported after the database because it requires the db to be initiated
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -51,15 +33,9 @@ import models # Must always be imported after the database because it requires t
 api.add_namespace(usersEp, path=baseUrl+'users') 		  # USERS
 api.add_namespace(companiesEp, path=baseUrl+'companies')  # COMPANIES
 api.add_namespace(stocksEp, path=baseUrl+'stocks')		  # STOCKS
-
 api.add_namespace(testEp, path=baseUrl+'test')            # testing
 
-
-
-
-
-
-# --------------------------------------------------- baseurl route --------------------------------------
+# ------------------------------------ baseurl route --------------------
 parser = reqparse.RequestParser()
 parser.add_argument('name')
 parser.add_argument('age', type=int)
@@ -73,9 +49,6 @@ class main_page(Resource):
 		'age': fields.Integer(default=18)
 		})
 
-	
-
-	
 	def get(self, **kwargs):
 		return 'The first version of the api.'
 		args = parser.parse_args(strict=True)
@@ -90,64 +63,74 @@ class main_page(Resource):
 			return 'error'
 
 
-# --------------------------------------------------- seeding ---------------------------------------------
+# ----------------------------------- seeding --------------------------
 
 
 
 
 seedParser = reqparse.RequestParser()
-seedParser.add_argument('seed_type') # one of users, stocks, companies...
-seedParser.add_argument('action_type') # one of add, remove
+seedParser.add_argument('seed_type', location='args') # one of users, stocks, companies, net_worth_leaderboard...
 
 @api.route(baseUrl+'seed/')
+#PARAMS
+@api.param('seed_type', 'specify which table to seed')
 class seeding(Resource):
 	def get(self):
 		return {'message': 'seeding area'}
 
 	def post(self):
 		try:
-			args = seedParser.parse_args(strict=True)
-			if (args['seed_type'] == 'users' or 
-				args['seed_type'] == 'stocks' or 
-				args['seed_type'] == 'companies'):
-				if (args['action_type'] == 'add'):
-					# Add the appropriate data
-					seedAt(args['seed_type'])
-					return {'message': 'success'}, 222
-				elif (args['action_type'] == 'remove'):
-					# delete the data
-					removeAt(args['seed_type'])
-					return {'message': 'success'}, 222
-
-			return {'message': 'wrong types given'}, 422				
+			args = seedParser.parse_args()
+			if (not validate(args, seed_validator)):
+				return {'ERROR': 'arguments may not be valid'}, 422
+			# Add the appropriate data
+			seedAt(args['seed_type'])
+			return {'message': 'success'}, 222
 		except Exception as e:
-			return {'message': str(e)}, 500
+			return {'message': str(e)}, 522
 
-
+	def delete(self):
+		try:
+			args = seedParser.parse_args()
+			if (not validate(args, seed_validator)):
+				return {'ERROR': 'arguments may not be valid'}, 422
+			removeAt(args['seed_type'])
+			return {'message': 'deleted'}, 222
+		except Exception as e:
+			return {'SERVER ERROR': str(e)}, 522
 
 
 def seedAt(dbName):
 	if dbName=='users':
-		for user in userList:
+		for user in user_seed_list:
 			db.session.add(user)
 	elif dbName=='stocks':
-		#stock stuff
+		for stock in stock_seed_list:
+			db.session.add(stock)
 		pass
 	elif dbName=='companies':
 		# companies stuff
 		pass
+	elif dbName=='user_stock_relationship_table':
+		pass
+	elif dbName=='net_worth_leaderboard':
+		for user in nwLb_seed_list:
+			db.session.add(user) 
 	db.session.commit()
 
 def removeAt(dbName):
 	if (dbName=='users'):
-		for user in userList:
-			db.session.delete(user)
+		for user in user_seed_list:
+			User.query.filter_by(username=user.username).delete()
 	elif (dbName=='stocks'):
-		#stock stuff
-		pass
+		for stock in stock_seed_list:
+			Stock.query.filter_by(company_name=stock.company_name).delete()
 	elif (dbName=='companies'):
 		# companies stuff
 		pass
+	elif (dbName == 'net_worth_leaderboard'):
+		for user in nwLb_seed_list:
+			NetWorthLeaderboard.query.filter_by(user_id=user.user_id).delete()
 	db.session.commit()
 
 

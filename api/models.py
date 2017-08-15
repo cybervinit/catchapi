@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()
 
+db = SQLAlchemy()
 
 
 class BaseModel(db.Model):
@@ -29,7 +29,6 @@ user_stock_relationship_table = db.Table('user_stock_relationship_table',
 class User(BaseModel):
 	__tablename__="users"
 
-	# CHANGING THIS ALSO REQUIRES CHANGING THE JSON ENCODER IN __init__.py
 	id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String(20), nullable=False, unique=True)
 	email = db.Column(db.String(120))
@@ -49,18 +48,27 @@ class User(BaseModel):
 		self.current_net_worth = current_net_worth
 		self.country = country
 
+
+
 class NetWorthLeaderboard(BaseModel):
 	__tablename__="net_worth_leaderboard"
 
 	id = db.Column(db.Integer, primary_key=True)
 	rank = db.Column(db.Integer, nullable=False)
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+	username = db.Column(db.String(20), nullable=True)
+
+	def __init__(self, rank, user_id, username):
+		self.rank = rank
+		self.user_id = user_id
+		self.username = username
+
 
 # Model class for Companies
 class Company(BaseModel):
 	__tablename__ = "companies"
 
-	# CHANGING THIS ALSO REQUIRES CHANGING THE JSON ENCODER IN __init__.py
+
 	id = db.Column(db.Integer, primary_key=True)
 	company_name = db.Column(db.String(32), nullable=False)
 	current_owner = db.Column(db.String(20), nullable=True)
@@ -80,13 +88,14 @@ class Company(BaseModel):
 class Stock(BaseModel):
 	__tablename__ = "stocks"
 
-	# CHANGING THIS ALSO REQUIRES CHANGING THE JSON ENCODER IN __init__.py
 	id = db.Column(db.Integer, primary_key=True)
 	company_name = db.Column(db.String(32), nullable=False)
+	owner_user = db.Column(db.String(20), nullable=True)
 	#owner = db.Column(db.String(20), nullable=True) # Nullable is true because initially, in the IPO, it is not owned. 
 
-	def __init__(self, company_name):
+	def __init__(self, company_name, owner_user):
 		self.company_name = company_name
+		self.owner_user = owner_user
 
 
 
