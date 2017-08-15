@@ -16,7 +16,6 @@ from seeder import user_seed_list, nwLb_seed_list, stock_seed_list
 # validations
 from validator import validate, seed_validator
 
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ App Setup ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 app = Flask(__name__)
 api = Api(app)
