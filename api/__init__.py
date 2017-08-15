@@ -21,7 +21,7 @@ app = Flask(__name__)
 api = Api(app)
 api.title = 'Mega Market API'
 api.version = '1.0'
-api.description = 'The api for an upcoming android application'
+api.description = 'V1 of the api for an upcoming android application'
 baseUrl = '/v1/'
 app.config.from_object('config_app.ProductionConfig')
 db.init_app(app)
