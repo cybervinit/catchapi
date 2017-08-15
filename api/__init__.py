@@ -19,7 +19,7 @@ from validator import validate, seed_validator
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ App Setup ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 app = Flask(__name__)
 api = Api(app)
-api.title = 'CATCH API'
+api.title = 'Mega Market API'
 api.version = '1.0'
 api.description = 'The api for an upcoming android application'
 baseUrl = '/v1/'
