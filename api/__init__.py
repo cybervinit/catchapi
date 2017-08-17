@@ -51,6 +51,7 @@ class db_creator(Resource):
 	def post(self):
 		try:
 			db.create_all()
+			db.session.commit()
 			return {'message': 'success'}, 222
 		except Exception as e:
 			return {'server_error': str(e)}, 522
