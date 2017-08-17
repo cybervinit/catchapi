@@ -2,6 +2,7 @@ from flask_restplus import Namespace, Resource, fields, reqparse, marshal
 from models import db, User, Company, Stock
 import models
 from flask import jsonify, make_response
+import os
 
 testEp = Namespace('testing', description='testing env')
 
@@ -47,6 +48,7 @@ class tests(Resource):
 		arr = []
 		arr.append(user1)
 		arr.append(user2)
+		arr.append(User.query.filter_by(username='vinit').first())
 		return {'users': arr}, 222
 		return {'server_error': 'asdf'}, 422
 

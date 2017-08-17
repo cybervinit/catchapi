@@ -56,7 +56,7 @@ class rank(Resource):
 
 	def post(self):
 		try:
-			return {'message': 'here is where you add the user after making him'}, 322
+			return {'message': 'TODO: here is where you add the user after making him'}, 322
 		except Exception as e:
 			return {'server_error': str(e)}, 522
 

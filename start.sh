@@ -4,6 +4,7 @@ osascript -e 'tell application "Terminal"
     do script "cd ~/side/catch" in selected tab of the front window
     do script "export FLASK_APP=run.py" in selected tab of the front window
     do script "export FLASK_DEBUG=true" in selected tab of the front window
+    do script "export CATCHAPI_CONFIG_SETTINGS='config_app.DevelopmentConfig'" in selected tab of the front window
     do script "flask run" in selected tab of the front window
     
     delay 1
