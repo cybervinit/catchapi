@@ -43,10 +43,8 @@ class db_creator(Resource):
 
 	def get(self):
 		try:
-			db.session.add(Stock('google', 'vinit'))
-			db.session.commit()
-			s1 = Stock.query.filter_by(company_name='google').first()
-			return {'owner': s1.owner_user}, 222
+			s1 = Stock.query.filter_by(owner_user='vinit').first()
+			return {'owner': s1.company_name}, 222
 		except Exception as e:
 			return {'server_error': str(e)}, 522
 
