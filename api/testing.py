@@ -42,15 +42,18 @@ class tests(Resource):
 
 	@testEp.marshal_with(user_list_model)
 	def get(self):
-		args = parser.parse_args()
-		user1 = User(username='vinitsoni', email='soni@gmail.com', country='canada', current_balance=122, user_type=22, current_net_worth=124)
-		user2 = User(username='sonivinit', email='soni@gmail.com', country='canada', current_balance=122, user_type=22, current_net_worth=124)
-		arr = []
-		arr.append(user1)
-		arr.append(user2)
-		arr.append(User.query.filter_by(username='vinit').first())
-		return {'users': arr}, 222
-		return {'server_error': 'asdf'}, 422
+		try:
+			args = parser.parse_args()
+			user1 = User(username='vinitsoni', email='soni@gmail.com', country='canada', current_balance=122, user_type=22, current_net_worth=124)
+			user2 = User(username='sonivinit', email='soni@gmail.com', country='canada', current_balance=122, user_type=22, current_net_worth=124)
+			arr = []
+			arr.append(user1)
+			arr.append(user2)
+			arr.append(User.query.filter_by(username='vinit').first())
+			return {'users': arr}, 222
+			return {'server_error': 'asdf'}, 422
+		except Exception as e:
+			return {'server_error': str(e)}, 522
 
 
 	@testEp.expect(age_fields)
