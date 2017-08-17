@@ -34,28 +34,6 @@ api.add_namespace(companiesEp, path=baseUrl+'companies')  # COMPANIES
 api.add_namespace(stocksEp, path=baseUrl+'stocks')		  # STOCKS
 api.add_namespace(testEp, path=baseUrl+'test')            # testing
 
-
-# -------------------------------------------
-
-@api.route(baseUrl+'DB')
-class db_creator(Resource):
-
-	def get(self):
-		try:
-			db.session.add(Stock('goog', 'vinit'))
-			db.session.commit()
-			s1 = Stock.query.filter_by(owner_user='vinit').first()
-			return {'owner': s1.company_name}, 222
-		except Exception as e:
-			return {'server_error': str(e)}, 522
-
-	def post(self):
-		try:
-			db.create_all()
-			db.session.commit()
-			return {'message': 'success'}, 222
-		except Exception as e:
-			return {'server_error': str(e)}, 522
 		
 
 # ------------------------------------ baseurl route --------------------
@@ -157,10 +135,27 @@ def removeAt(dbName):
 	db.session.commit()
 
 
+# --------------------- DB creator ----------------------
 
+@api.route(baseUrl+'DB')
+class db_creator(Resource):
 
+	def get(self):
+		try:
+			db.session.add(Stock('goog', 'vinit'))
+			db.session.commit()
+			s1 = Stock.query.filter_by(owner_user='vinit').first()
+			return {'owner': s1.company_name}, 222
+		except Exception as e:
+			return {'server_error': str(e)}, 522
 
-
+	def post(self):
+		try:
+			db.create_all()
+			db.session.commit()
+			return {'message': 'success'}, 222
+		except Exception as e:
+			return {'server_error': str(e)}, 522
 
 
 

@@ -91,7 +91,7 @@ class Stock(BaseModel):
 	id = db.Column(db.Integer, primary_key=True)
 	company_name = db.Column(db.String(32), nullable=False)
 	owner_user = db.Column(db.String(20), nullable=True)
-	#owner = db.Column(db.String(20), nullable=True) # Nullable is true because initially, in the IPO, it is not owned. 
+	# owner = db.Column(db.String(20), nullable=True) # Nullable is true because initially, in the IPO, it is not owned.
 
 	def __init__(self, company_name, owner_user):
 		self.company_name = company_name

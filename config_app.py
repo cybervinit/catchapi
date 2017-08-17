@@ -23,4 +23,5 @@ class ProductionConfig(BaseConfig):
 	dbInfo["port"] = '5432'
 	dbInfo["host"] = 'ec2-50-17-236-15.compute-1.amazonaws.com'
 	SQLALCHEMY_DATABASE_URI = 'postgresql://'+dbInfo['user']+':'+dbInfo['password']+'@'+dbInfo['host']+':'+dbInfo['port']+'/'+dbInfo['dbname']
+	SQLALCHEMY_TRACK_MODIFICATIONS = False
 
