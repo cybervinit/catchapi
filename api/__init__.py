@@ -38,8 +38,17 @@ api.add_namespace(testEp, path=baseUrl+'test')            # testing
 
 # -------------------------------------------
 
-@api.route(baseUrl+'makeDB')
+@api.route(baseUrl+'DB')
 class db_creator(Resource):
+
+	def get(self):
+		try:
+			db.session.add(Stock('google', 'vinit'))
+			db.session.commit()
+			s1 = Stock.query.filter_by(company_name='google').first()
+			return {'owner': s1.owner_user}, 222
+		except Exception as e:
+			return {'server_error': str(e)}, 522
 
 	def post(self):
 		try:
