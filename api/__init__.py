@@ -35,6 +35,20 @@ api.add_namespace(companiesEp, path=baseUrl+'companies')  # COMPANIES
 api.add_namespace(stocksEp, path=baseUrl+'stocks')		  # STOCKS
 api.add_namespace(testEp, path=baseUrl+'test')            # testing
 
+
+# -------------------------------------------
+
+@api.route(baseUrl+'makeDB')
+class db_creator(Resource):
+
+	def post(self):
+		try:
+			db.create_all()
+			return {'message': 'success'}, 222
+		except Exception as e:
+			return {'server_error': str(e)}, 522
+		
+
 # ------------------------------------ baseurl route --------------------
 parser = reqparse.RequestParser()
 parser.add_argument('name')
