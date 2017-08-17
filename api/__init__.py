@@ -20,11 +20,10 @@ from validator import validate, seed_validator
 app = Flask(__name__)
 api = Api(app)
 api.title = 'Mega Market API'
-api.version = '1.0'
+api.version = '0.0.1'
 api.description = 'v1 of the api for an upcoming android application'
 baseUrl = '/v1/'
 app.config.from_object(os.getenv('CATCHAPI_CONFIG_SETTINGS'))
-# app.config.from_envvar('CATCHAPI_CONFIG_SETTINGS')
 db.init_app(app)
 import models # Must always be imported after the database because it requires the db to be initiated
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
