@@ -10,7 +10,7 @@ usersApi = Namespace('users', description="User operations")
 # ----------------------------------- Response Model Registration ------------------------------------------------------
 
 user_model = usersApi.model('user', {
-	'message': fields.String(default = "no"),
+	'server_error': fields.String(default = "no"),
 	'id': fields.Integer,
 	'username': fields.String,
 	'email': fields.String,
@@ -60,12 +60,12 @@ class user(Resource):
 			# ^^^^^^^^^^^ ERROR CHECK ^^^^^^^^^^^^^^^^^^^^^^^
 			if (not validate(username, username_validator)):
 				error_str = username+' does not exist.'
-				return {'message': error_str}, 422
+				return {'server_error': error_str}, 242
 			# vvvvvvvvvvv ERROR CHECK END vvvvvvvvvvvvvvvvv
 			user1 = User.query.filter_by(username=username).first()
 			return user1, 222
 		except Exception as e:
-			return {'message': str(e)}, 522
+			return {'server_error': str(e)}, 522
 
 
 # --------------------------------------------------- General Rank ---------------------------------------------
