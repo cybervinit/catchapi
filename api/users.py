@@ -137,7 +137,7 @@ class rank_from_user(Resource):
 				return {'rank': rank}, 222
 			elif rank_type == 'current_balance':
 				# TODO: return global rank of the user
-				return {'TODO': 'get rank by current balance'}, 222
+				return {'server_error': 'TODO: get rank by current balance'}, 322
 		except Exception as e:
 			return {'SERVER ERROR': str(e)}, 522
 

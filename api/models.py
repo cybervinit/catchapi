@@ -68,7 +68,6 @@ class NetWorthLeaderboard(BaseModel):
 class Company(BaseModel):
 	__tablename__ = "companies"
 
-
 	id = db.Column(db.Integer, primary_key=True)
 	company_name = db.Column(db.String(32), nullable=False)
 	current_owner = db.Column(db.String(20), nullable=True)
