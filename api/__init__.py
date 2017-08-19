@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory
 from flask.json import JSONEncoder
 from models import db, User, Stock, Company, NetWorthLeaderboard
 from flask_restplus import Resource, Api, fields, reqparse, Namespace
@@ -162,11 +162,11 @@ class db_creator(Resource):
 
 # --------------------- Load tester --------------------------
 
-@api.route('/loaderio-085477d20984a17e57c33a9215580a62/')
+@api.route('/loaderio-085477d20984a17e57c33a9215580a62')
 class load_tester(Resource):
 
 	def get(self):
-		return 'loaderio-085477d20984a17e57c33a9215580a62', 200
+		return send_from_directory(app.root_path, 'loaderio-085477d20984a17e57c33a9215580a62.txt')
 
 
 
