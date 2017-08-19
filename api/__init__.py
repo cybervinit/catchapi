@@ -160,7 +160,13 @@ class db_creator(Resource):
 
 
 
+# --------------------- Load tester --------------------------
 
+@api.route('/loaderio-085477d20984a17e57c33a9215580a62/')
+class load_tester(Resource):
+
+	def get(self):
+		return 'loaderio-085477d20984a17e57c33a9215580a62', 200
 
 
 

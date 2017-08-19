@@ -20,6 +20,11 @@ user_model = usersApi.model('user', {
 	'current_net_worth': fields.Integer
 })
 
+rank_model = usersApi.model('rank', {
+	'server_error': fields.String(default = "no"),
+	'rank': fields.Integer
+})
+
 
 # --------------------------------------------------- all users ---------------------------------------------
 
@@ -136,16 +141,17 @@ rank_parser2.add_argument('rank_type')
 @usersApi.param('rank_type', 'specify a rank_type')
 class rank_from_user(Resource):
 
+	@usersApi.marshal_with(rank_model)
 	def get(self, username):
 		try:
 			args = rank_parser2.parse_args()
 
 			# ^^^^^^^^^^^ ERROR CHECK ^^^^^^^^^^^^^^^^^^^^^^^
 			if (not validate(args, user_rank)):
-				return {'ERROR': 'one or more parameters not valid'}, 422
+				return {'server_error': 'one or more parameters not valid'}, 422
 			if (not validate(username, username_validator)):
 				error_str = username+' does not exist.'
-				return {'ERROR': error_str}, 422
+				return {'server_error': error_str}, 422
 			# vvvvvvvvvvv ERROR CHECK END vvvvvvvvvvvvvvvvv
 
 			rank_type = args['rank_type']
@@ -158,7 +164,7 @@ class rank_from_user(Resource):
 				# TODO: return global rank of the user
 				return {'server_error': 'TODO: get rank by current balance'}, 322
 		except Exception as e:
-			return {'SERVER ERROR': str(e)}, 522
+			return {'server_error': str(e)}, 522
 
 
 
